@@ -42,12 +42,11 @@ def create_app():
 
     create_database(app)
 
-    with app.app_context():
-        admin_role = Role(name="Admin")
-        member_role = Role(name="Member")
-        db.session.add(admin_role)
-        db.session.add(member_role)
-    
+    # with app.app_context():
+    #     admin_role = Role(name="Admin")
+    #     db.session.add(admin_role)
+    #     db.session.commit()
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -60,14 +59,13 @@ def create_app():
 
 
 def create_database(app):
+    from .models import User, Role, UserRoles
     if not path.exists('website/' + DB_NAME):
         db.create_all(app=app)
         print('Created database!')
-
-
-def create_roles():
-    from .models import User, Role, UserRoles
-    admin_role = Role(name="Admin")
-    member_role = Role(name="Member")
-    db.session.add(admin_role)
-    db.session.add(member_role)
+        with app.app_context():
+            admin_role = Role(name="Admin")
+            member_role = Role(name="Member")
+            db.session.add(admin_role)
+            db.session.add(member_role)
+            db.session.commit()

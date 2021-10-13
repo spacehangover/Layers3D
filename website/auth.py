@@ -49,10 +49,12 @@ def sign_up():
         associate = request.form.get('associate')
 
         user = User.query.filter_by(email=email).first()
-        admin_role = Role(name="Admin")
+        admin_role = Role.query.filter_by(name="Admin").first()
+        member_role = Role.query.filter_by(name="Member").first()
+        # admin_role = Role(name="Admin")
         # member_role = Role(name="Member")
 
-        userRoles = []
+        userRoles = [member_role, ]
 
         if associate == "on":
             userRoles.append(admin_role)

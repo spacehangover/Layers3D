@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, Response
 from flask.helpers import url_for
 from flask_mail import Mail, Message
-from .models import User, Product
+from .models import User, Product, Role
 from website import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -90,7 +90,5 @@ def change_price():
 
 
 @views.route("/admin", methods=["GET", "POST"])
-@login_required
-@roles_required("Admin")
 def admin_dashboard():
-    return "Hello admin"
+    return render_template("dashboard.html", roles=Role.query.all(), users=User.query.all())
