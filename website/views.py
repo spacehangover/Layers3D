@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, Response
 from flask.helpers import url_for
 from flask_mail import Mail, Message
+
+from website.auth import login
 from .models import User, Product, Role
 from website import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -43,31 +45,28 @@ def pedidos():
 def add():
     products = Product.query.all()
     if request.method == "POST":
-        if current_user.associate == "on":
-            productName = request.form.get("productName")
-            productPrice = request.form.get("productPrice")
-            pic = request.files['pic']
+        productName = request.form.get("productName")
+        productPrice = request.form.get("productPrice")
+        pic = request.files['pic']
 
-            if pic and allowed_file(pic.filename):
-                filename = secure_filename(pic.filename)
-                splitFilename = os.path.splitext(filename)
-                newFilename = splitFilename[0] + \
-                    str(random.randint(1, 10000000)) + splitFilename[1]
-                print(newFilename)
-                image_name = os.path.join("static/products/", newFilename)
-                pic.save(os.path.join(
-                    "E:\Coding\QuantumWeb\QuantumFlask\website\static\products", newFilename))
+        if pic and allowed_file(pic.filename):
+            filename = secure_filename(pic.filename)
+            splitFilename = os.path.splitext(filename)
+            newFilename = splitFilename[0] + \
+                str(random.randint(1, 10000000)) + splitFilename[1]
+            print(newFilename)
+            image_name = os.path.join("static/products/", newFilename)
+            pic.save(os.path.join(
+                "E:\Coding\QuantumWeb\QuantumFlask\website\static\products", newFilename))
 
-            if not pic:
-                flash('Agregar foto', category='error')
-            else:
-                newProduct = Product(product_name=productName,
-                                     product_price=productPrice, image_name=image_name)
-                db.session.add(newProduct)
-                db.session.commit()
-                flash('Producto añadido', category='success')
+        if not pic:
+            flash('Agregar foto', category='error')
         else:
-            flash('No eres socio', category='error')
+            newProduct = Product(product_name=productName,
+                                 product_price=productPrice, image_name=image_name)
+            db.session.add(newProduct)
+            db.session.commit()
+            flash('Producto añadido', category='success')
     return render_template('add.html', user=current_user)
 
 
@@ -90,5 +89,14 @@ def change_price():
 
 
 @views.route("/admin", methods=["GET", "POST"])
+@login_required
+@roles_required("Admin")
 def admin_dashboard():
-    return render_template("dashboard.html", roles=Role.query.all(), users=User.query.all())
+    return render_template("dashboardtemp.html", roles=Role.query.all(), users=User.query.all(), current_user=current_user)
+
+
+@views.route("/database", methods=["GET", "POST"])
+@login_required
+@roles_required("Admin")
+def database():
+    return render_template("database_table.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all())

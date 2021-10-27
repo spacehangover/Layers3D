@@ -70,12 +70,12 @@ def sign_up():
         elif len(password1) < 6:
             flash("La contraseña debe ser mas larga", category="error")
         else:
-            new_user = User(email=email, first_name=first_name,
+            new_user = User(email=email, first_name=first_name, last_name=last_name,
                             password=generate_password_hash(password1, method='sha256'), roles=userRoles)
             db.session.add(new_user)
             db.session.commit()
 
-            # login_user(user, remember=True)
+            login_user(new_user)
             flash("Cuenta creada!", category="success")
             return redirect(url_for('views.home'))
 

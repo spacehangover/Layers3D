@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
+    last_name = db.Column(db.String(150))
     roles = db.relationship('Role', secondary='user_roles')
 
     def has_roles(self, *args):
@@ -19,8 +20,6 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), unique=True)
-
-# Define the UserRoles association table
 
 
 class UserRoles(db.Model):

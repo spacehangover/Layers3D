@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Tienda</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="static/css/styles.css" rel="stylesheet" />
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+        <!-- Vendor CSS Files -->
+        <link href="static/vendor/aos/aos.css" rel="stylesheet">
+        <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+        <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+        <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+      
+        <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          crossorigin="anonymous"
+        />
+      
+        <!-- Template Main CSS File -->
+        <link href="static/css/style.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <!-- Navigation-->
+        <!-- Header-->
+        <header id="header" class="fixed-top ">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+              {% if category == "error" %}
+              <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% else %}
+              <div class="alert alert-success alter-dismissable fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            {% endwith %}
+        
+            <div class="container d-flex align-items-center">
+        
+              <h1 class="logo me-auto"><a href="/">Quantum Printing</a></h1>
+              
+              <nav id="navbar" class="navbar">
+                <ul>
+                    {% if current_user.is_authenticated %}
+                    <li><a class="nav-link scrollto active" href="/">Home</a></li>
+                    <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
+                    <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+                    <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
+                    {% else %}
+                    <li><a class="nav-link scrollto active" href="/">Home</a></li>
+                    <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
+                    <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+                    <li><a class="getstarted scrollto" href="/login">Login</a></li>
+                    {% endif %} 
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+              </nav><!-- .navbar -->
+        
+            </div>
+          </header><!-- End Header -->
+
+          <section id="hero" class="d-flex align-items-center" style="height: 10%;">
+          </section>
+
+
+
+
+
+                    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Admin Dashboard</h2>
+          <!-- <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> -->
+        </div>
+
+        <div class="row">
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4><a href="add">Añadir productos</a></h4>
+              <p>Envianos tu modelo y te damos un presupuesto!</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4><a href="">Product Database</a></h4>
+              <p>Tenes una idea? Hablanos y te ayudamos a hacerla real!</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4><a href="">User Database</a></h4>
+              <p>Busca el modelo que quieras en Thingiverse</p>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-layer"></i></div>
+              <h4><a href="">Visita nuestra tienda</a></h4>
+              <p>Mirá todos nuestros productos!</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+
+
+
+        
+                <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                </ul>
+        
+                <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+                  {% for product in products %}
+                  <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <div class="portfolio-img"><img src={{product.image_name}} class="img-fluid" alt=""></div>
+                    <div class="portfolio-info">
+                      <h4>{{product.product_name}}</h4>
+                      <p>$ {{product.product_price}}</p>
+                      <a href={{product.image_name}} data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title={{product.product_name}}><i class="bx bx-plus"></i></a>
+                    </div>
+                  </div>
+                  {% endfor %}
+        
+        
+                </div>
+        
+              </div>
+            </section><!-- End Portfolio Section -->
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <!-- <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>QUANTUM</h3>
+            <p>
+              Av. Colon <br>
+              6200<br>
+              Cordoba, Argentina <br><br>
+              <!-- <strong>Phone:</strong> +1 5589 55488 55<br> -->
+              <strong>Email:</strong> quantumprinting3d@gmail.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <!-- <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> -->
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <!-- <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+            </ul>
+          </div> -->
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Nuestras redes sociales</h4>
+            <!-- <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p> -->
+            <div class="social-links mt-3">
+              <!-- <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a> -->
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <!-- <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a> -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Quantum</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/ -->
+        Designed by spacehangover
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+            
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="static/js/scripts.js"></script>
+
+          <!-- Vendor JS Files -->
+  <script src="static/vendor/aos/aos.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/vendor/php-email-form/validate.js"></script>
+  <script src="static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="static/vendor/waypoints/noframework.waypoints.js"></script>
+
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+
+  <!-- Template Main JS File -->
+  <script src="static/js/main.js"></script>
+    </body>
+</html>
