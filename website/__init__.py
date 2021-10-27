@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 import os
 from flask_login import LoginManager
-from itsdangerous import URLSafeTimedSerializer
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_mail import Mail, Message
 from flask_user import login_required, SQLAlchemyAdapter, UserManager, UserMixin
 
@@ -12,7 +12,7 @@ db = SQLAlchemy()
 DB_NAME = "database.db"
 
 
-UPLOAD_FOLDER = '\static\products'
+UPLOAD_FOLDER = 'E:/Coding/QuantumWeb2.0/website/static/products/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
@@ -26,7 +26,18 @@ def create_app():
     app.config['SECRET_KEY'] = '21'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    mail_settings = {
+        "MAIL_SERVER": 'smtp.gmail.com',
+        "MAIL_PORT": 465,
+        "MAIL_USE_TLS": False,
+        "MAIL_USE_SSL": True,
+        "MAIL_USERNAME": "quantumprinting3d@gmail.com",
+        "MAIL_PASSWORD": "Peugeot307xtp"
+    }
+    app.config.update(mail_settings)
 
+    mail = Mail(app)
     db.init_app(app)
 
     from .views import views
@@ -41,11 +52,6 @@ def create_app():
     user_manager = UserManager(db_adapter, app)
 
     create_database(app)
-
-    # with app.app_context():
-    #     admin_role = Role(name="Admin")
-    #     db.session.add(admin_role)
-    #     db.session.commit()
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

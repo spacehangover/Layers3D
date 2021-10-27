@@ -1,6 +1,7 @@
 from enum import unique
 from . import db
 from flask_login import UserMixin
+import datetime
 
 
 class User(db.Model, UserMixin):
@@ -10,7 +11,10 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
+    registered_on = db.Column(db.DateTime, nullable=False)
     roles = db.relationship('Role', secondary='user_roles')
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    confirmed_on = db.Column(db.DateTime, nullable=True)
 
     def has_roles(self, *args):
         return set(args).issubset({role.name for role in self.roles})
@@ -35,4 +39,4 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product_name = db.Column(db.String(150))
     product_price = db.Column(db.Float)
-    image_name = db.Column(db.String(400))
+    image_path = db.Column(db.String(400))

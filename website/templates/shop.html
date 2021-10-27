@@ -111,14 +111,15 @@
 
                   {% for product in products %}
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-img"><img src={{product.image_name}} class="img-fluid" alt=""></div>
+                    <div class="portfolio-img"><img src={{product.image_path}} class="img-fluid" alt=""></div>
                     <div class="portfolio-info">
                       <h4>{{product.product_name}}</h4>
                       <p>$ {{product.product_price}}</p>
-                      <a href={{product.image_name}} data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title={{product.product_name}}><i class="bx bx-plus"></i></a>
+                      <a href={{product.image_path}} data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title={{product.product_name}}><i class="bx bx-plus"></i></a>
                     </div>
                   </div>
                   {% endfor %}
+
         
         
                 </div>

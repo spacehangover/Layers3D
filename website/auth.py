@@ -7,8 +7,23 @@ from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from flask_user import roles_required, UserManager, UserMixin
+import datetime
 
 auth = Blueprint('auth', __name__)
+app = Flask(__name__)
+
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": "quantumprinting3d@gmail.com",
+    "MAIL_PASSWORD": "Peugeot307xtp"
+}
+app.config.update(mail_settings)
+mail = Mail(app)
+
+s = URLSafeTimedSerializer('Thisisasecret!')
 
 
 @auth.route("/login", methods=["GET", "POST"])
@@ -48,6 +63,14 @@ def sign_up():
         password2 = request.form.get("password2")
         associate = request.form.get('associate')
 
+        token = s.dumps(email, salt='email-confirm')
+        msg = Message('Confirmar Email',
+                      sender='quantumprinting3d@gmail.com', recipients=[email])
+
+        link = url_for('auth.confirm_email', token=token, _external=True)
+
+        msg.body = 'Your link is {}'.format(link)
+
         user = User.query.filter_by(email=email).first()
         admin_role = Role.query.filter_by(name="Admin").first()
         member_role = Role.query.filter_by(name="Member").first()
@@ -71,12 +94,31 @@ def sign_up():
             flash("La contraseña debe ser mas larga", category="error")
         else:
             new_user = User(email=email, first_name=first_name, last_name=last_name,
-                            password=generate_password_hash(password1, method='sha256'), roles=userRoles)
+                            password=generate_password_hash(password1, method='sha256'), registered_on=datetime.datetime.now(), roles=userRoles)
             db.session.add(new_user)
             db.session.commit()
-
             login_user(new_user)
             flash("Cuenta creada!", category="success")
+            mail.send(msg)
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user)
+
+
+@auth.route('/confirm_email/<token>', methods=["GET", "POST"])
+def confirm_email(token):
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=3600)
+        user = User.query.filter_by(email=email).first()
+        user.confirmed = True
+        user.confirmed_on = datetime.datetime.now()
+        db.session.commit()
+    except SignatureExpired:
+        return '<h1>The token is expired!</h1>'
+    return render_template("confirmed.html")
+
+
+@auth.route("/update/<int:id>", methods=["GET", "POST"])
+def update(id):
+    user_to_update = User.query.filter_by(id=id).first()
+    return render_template("change.html", user=user_to_update)
