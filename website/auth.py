@@ -61,8 +61,8 @@ def sign_up():
         last_name = request.form.get("lastName")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
-        associate = request.form.get('associate')
-
+        # associate = request.form.get('associate')
+        terms = request.form.get('terms')
         token = s.dumps(email, salt='email-confirm')
         msg = Message('Confirmar Email',
                       sender='quantumprinting3d@gmail.com', recipients=[email])
@@ -79,8 +79,10 @@ def sign_up():
 
         userRoles = [member_role, ]
 
-        if associate == "on":
-            userRoles.append(admin_role)
+        # if associate == "on":
+        #     userRoles.append(admin_role)
+
+        print(type(terms))
 
         if user:
             flash('El Email ya existe', category='error')
@@ -92,6 +94,8 @@ def sign_up():
             flash("Las contraseñas deben ser iguales", category="error")
         elif len(password1) < 6:
             flash("La contraseña debe ser mas larga", category="error")
+        elif str(terms) == "None":
+            flash("Aceptar terminos y condiciones", category="error")
         else:
             new_user = User(email=email, first_name=first_name, last_name=last_name,
                             password=generate_password_hash(password1, method='sha256'), registered_on=datetime.datetime.now(), roles=userRoles)

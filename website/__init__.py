@@ -74,4 +74,20 @@ def create_database(app):
             member_role = Role(name="Member")
             db.session.add(admin_role)
             db.session.add(member_role)
+            create_admin()
             db.session.commit()
+
+
+def create_admin():
+    from .models import User, Role, UserRoles
+    from werkzeug.security import generate_password_hash, check_password_hash
+    import datetime
+    admin_role = Role.query.filter_by(name="Admin").first()
+    member_role = Role.query.filter_by(name="Member").first()
+    userRoles = [member_role, admin_role]
+    admin_user = User(email="quantumprinting3d@gmail.com", first_name="Quantum", last_name="Printing",
+                      password=generate_password_hash("Peugeot307xtp", method='sha256'), registered_on=datetime.datetime.now(), roles=userRoles)
+    db.session.add(admin_user)
+    admin_user.confirmed = True
+    admin_user.confirmed_on = datetime.datetime.now()
+    db.session.commit()
