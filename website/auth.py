@@ -82,8 +82,6 @@ def sign_up():
         # if associate == "on":
         #     userRoles.append(admin_role)
 
-        print(type(terms))
-
         if user:
             flash('El Email ya existe', category='error')
         elif len(email) < 4:
@@ -106,6 +104,55 @@ def sign_up():
             mail.send(msg)
             return redirect(url_for('views.home'))
 
+    return render_template("sign_up.html", user=current_user)
+
+
+@auth.route("/join/sign-up", methods=["GET", "POST"])
+def sign_up_partner():
+    if request.method == "POST":
+        email = request.form.get("email")
+        first_name = request.form.get("firstName")
+        last_name = request.form.get("lastName")
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
+        # associate = request.form.get('associate')
+        terms = request.form.get('terms')
+        token = s.dumps(email, salt='email-confirm')
+        msg = Message('Confirmar Email',
+                      sender='quantumprinting3d@gmail.com', recipients=[email])
+
+        link = url_for('auth.confirm_email', token=token, _external=True)
+
+        msg.body = 'Your link is {}'.format(link)
+
+        user = User.query.filter_by(email=email).first()
+        admin_role = Role.query.filter_by(name="Admin").first()
+        member_role = Role.query.filter_by(name="Member").first()
+        partner_role = Role.query.filter_by(name="Partner").first()
+
+        userRoles = [member_role, partner_role]
+
+        if user:
+            flash('El Email ya existe', category='error')
+        elif len(email) < 4:
+            flash("El Email debe ser mas largo", category="error")
+        elif len(first_name) < 2:
+            flash("Nombre debe ser mas largo", category="error")
+        elif password1 != password2:
+            flash("Las contraseñas deben ser iguales", category="error")
+        elif len(password1) < 6:
+            flash("La contraseña debe ser mas larga", category="error")
+        elif str(terms) == "None":
+            flash("Aceptar terminos y condiciones", category="error")
+        else:
+            new_user = User(email=email, first_name=first_name, last_name=last_name,
+                            password=generate_password_hash(password1, method='sha256'), registered_on=datetime.datetime.now(), roles=userRoles)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            flash("Cuenta creada!", category="success")
+            mail.send(msg)
+            return redirect(url_for('views.home'))
     return render_template("sign_up.html", user=current_user)
 
 

@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary='user_roles')
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
+    cart = db.relationship('Product', secondary='user_products')
 
     def has_roles(self, *args):
         return set(args).issubset({role.name for role in self.roles})
@@ -40,3 +41,12 @@ class Product(db.Model):
     product_name = db.Column(db.String(150))
     product_price = db.Column(db.Float)
     image_path = db.Column(db.String(400))
+
+
+class UserProducts(db.Model):
+    __tablename__ = 'user_products'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey(
+        'users.id', ondelete='CASCADE'))
+    product_id = db.Column(db.Integer(), db.ForeignKey(
+        'product.id', ondelete='CASCADE'))

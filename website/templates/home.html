@@ -74,16 +74,19 @@
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/pedidos">Pedidos</a></li>
+          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
           {% elif user.is_authenticated %}
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
           {% else %}
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/login">Login</a></li>
           {% endif %} 
         </ul>
@@ -142,7 +145,7 @@
             <p>
               <strong>¿Tenes una impresora 3D?</strong> Nuestro equipo siempre está en busca de personas interesadas en unirse a la linea de producción de Quantum Printing!
             </p>
-            <a href="#" class="btn-learn-more">Learn more</a>
+            <a href="/join" class="btn-learn-more">Learn more</a>
           </div>
         </div>
 
@@ -218,7 +221,7 @@
             <div class="skills-content">
 
               <div class="progress">
-                <span class="skill">PLA <i class="val">70%</i></span>
+                <span class="skill">PLA (Biodegradable)<i class="val">70%</i></span>
                 <div class="progress-bar-wrap">
                   <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
@@ -273,7 +276,7 @@
           <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-file"></i></div>
-              <h4><a href="">Modelado personalizado</a></h4>
+              <h4><a href="#contact">Modelado personalizado</a></h4>
               <p>Tenes una idea? Hablanos y te ayudamos a hacerla real!</p>
             </div>
           </div>
@@ -281,7 +284,7 @@
           <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="300">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4><a href="">Buscá modelos!</a></h4>
+              <h4><a href="https://www.thingiverse.com/">Buscá modelos!</a></h4>
               <p>Busca el modelo que quieras en Thingiverse</p>
             </div>
           </div>
@@ -289,7 +292,7 @@
           <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-layer"></i></div>
-              <h4><a href="">Visita nuestra tienda</a></h4>
+              <h4><a href="/tienda">Visita nuestra tienda</a></h4>
               <p>Mirá todos nuestros productos!</p>
             </div>
           </div>

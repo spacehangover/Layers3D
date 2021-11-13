@@ -92,13 +92,16 @@ def add():
                 splitFilename = os.path.splitext(filename)
                 newFilename = str(newProduct.id) + splitFilename[1]
                 print(newFilename)
-                image_path = "static/products/" + newFilename
+                image_path = url_for(
+                    'static', filename='products/' + newFilename)
                 pic.save(app.config['UPLOAD_FOLDER'] + newFilename)
                 newProduct.image_path = image_path
                 flash('product added', category='success')
                 print(newFilename)
                 print(image_path)
                 db.session.commit()
+                # userProducts = [newProduct, ]
+                # current_user.cart = userProducts
 
     return render_template('add.html', user=current_user)
 
@@ -129,7 +132,26 @@ def admin_dashboard():
 
 
 @ views.route("/database", methods=["GET", "POST"])
-@ login_required
-@ roles_required("Admin")
+# @ login_required
+# @ roles_required("Admin")
 def database():
     return render_template("database_table.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all())
+
+
+@views.route('/cart')
+def cart():
+    for p in current_user.cart:
+        total_items = 0
+        total_items += 1
+        total_price = 0
+        total_price += p.product_price
+    return render_template("cart.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user, total_items=total_items, total_price=total_price)
+
+
+@views.route('/addcart/<int:id>')
+def addcart(id):
+    cart_product = Product.query.filter_by(id=id).first()
+    current_user.cart.append(cart_product)
+    db.session.commit()
+    flash('Producto añadido', category='success')
+    return render_template("shop.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user)

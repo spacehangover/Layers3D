@@ -12,7 +12,8 @@ db = SQLAlchemy()
 DB_NAME = "database.db"
 
 
-UPLOAD_FOLDER = 'E:/Coding/QuantumWeb2.0/website/static/products/'
+UPLOAD_FOLDER = 'E:/Coding/Quantum Web 3.0/website/static/products/'
+
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
@@ -72,8 +73,10 @@ def create_database(app):
         with app.app_context():
             admin_role = Role(name="Admin")
             member_role = Role(name="Member")
+            partner_role = Role(name="Partner")
             db.session.add(admin_role)
             db.session.add(member_role)
+            db.session.add(partner_role)
             create_admin()
             db.session.commit()
 
