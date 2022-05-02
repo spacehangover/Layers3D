@@ -128,7 +128,7 @@
                         {% for product in current_user.cart %}
                         <div class="row border-top border-bottom">
                             <div class="row main align-items-center">
-                                <div class="col-2"><img class="img-fluid" src="{{product.image_path}}"></div>
+                                <div class="col-2"><img class="img-fluid" src="{{ url_for('static',filename='products/' + product.product_image[0].path) }}"></div>
                                 <div class="col">
                                     <div class="row text-muted">{{product.product_name}}</div>
                                     <div class="row">Cotton T-shirt</div>

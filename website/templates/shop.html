@@ -100,6 +100,7 @@
           </header><!-- End Header -->
 
           <section id="hero" class="d-flex align-items-center" style="height: 10%;">
+            
           </section>
 
 
@@ -119,14 +120,16 @@
                  <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
                   {% for product in products %}
-                  <a href="">
+                  <a href="/product/{{product.id}}">
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                    <div class="portfolio-img"><img src={{product.image_path}} class="img-fluid" alt=""></div>
+                    
+                    <div class="portfolio-img"><img src="{{ url_for('static',filename='products/' + product.product_image[0].path) }}" class="img-fluid" alt=""></div>
+                    
                     <div class="portfolio-info">
-                      <h4>{{product.imagePath}}</h4>
+                      <h4>{{product.product_name}}</h4>
                       <!-- <h4>{{product.product_name}}</h4> -->
                       <p>$ {{product.product_price}}</p>
-                      <a href=/addcart/{{product.id}} title={{product.product_name}}><span class="iconify-inline" data-icon="bx:bxs-cart-add"></span></i></a>
+                      <a href=/addcart/{{product.id}} title={{product.product_name}}><span class="iconify-inline" data-icon="bx:bxs-cart-add" style="float: right; font-size: 50px; margin-top: -50px;"></span></i></a>
                     </div>
                   </div>
                   </a>

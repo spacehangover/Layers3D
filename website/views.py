@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, Response
 from flask.helpers import url_for
 from flask_mail import Mail, Message
 from website.auth import login
-from .models import User, Product, Role, ImagePath
+from .models import User, Product, Role, productImage
 from website import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -43,6 +43,9 @@ def home():
         flash('Mensaje enviado', category='success')
     return render_template("home.html", user=current_user)
 
+@views.route('/img')
+def img():
+    return render_template("img.html", user=current_user,products=Product.query.all())
 
 @views.route('/join')
 def join():
@@ -102,15 +105,19 @@ def add():
 
                     photoNumber = pictures.index(pic)
 
-                    # print(newFilename)
-                    image_path = productDir + "/" + \
+                    print(newFilename)
+                    absolute_image_path = productDir + "/" + \
                         str(newProduct.id) + "-" + \
                         str(photoNumber) + splitFilename[1]
-                    pic.save(image_path)
+                    pic.save(absolute_image_path)
 
-                    photoPath = ImagePath(
-                        path=image_path, product_id=newProduct.id)
-                    db.session.add(photoPath)
+                    local_image_path =  newProduct.product_name + "/" + str(newProduct.id) + "-" + \
+                        str(photoNumber) + splitFilename[1]
+                    
+
+                    image = productImage(photoId=str(newProduct.id) + "-" + str(photoNumber),
+                        path=local_image_path, product_id=newProduct.id)
+                    db.session.add(image)
                     db.session.commit()
                     # print(photoPath.path)
 
@@ -190,11 +197,11 @@ def confirmation():
     return render_template("shop.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user)
 
 
-@ views.route('/product')
-def product():
+@ views.route('/product/<int:id>')
+def product(id):
     # Product.query.filter_by(id=id).delete()
     # db.session.commit()
     # flash('Producto eliminado', category='success')
-    product = Product.query.filter_by(id=1).first()
+    product = Product.query.filter_by(id=id).first()
     print(product.product_name)
     return render_template("product_details.html", roles=Role.query.all(), users=User.query.all(), user=current_user, product=product, current_user=current_user)

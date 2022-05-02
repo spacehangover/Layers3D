@@ -199,6 +199,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
+                            <th scope="col">Images</th>
                             <th scope="col">Edit</th>
                             
                           </tr>
@@ -222,6 +223,11 @@
                             </td>
                             <td>
                               {{product.product_price}}
+                            </td>
+                            <td>
+                              {% for image in product.product_image %}
+                              {{image.photoId}}
+                              {% endfor %}
                             </td>
                             <td><a href="#" class="more">Edit</a> <a href="/remove/{{product.id}}" class="more">Remove</a> </td>
                             

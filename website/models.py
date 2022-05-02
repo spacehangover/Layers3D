@@ -41,14 +41,15 @@ class Product(db.Model):
     product_name = db.Column(db.String(150))
     product_price = db.Column(db.Float)
     # image_path = db.Column(db.String(400))
-    imagePath = db.relationship('ImagePath', backref='product', lazy=True)
+    product_image = db.relationship('productImage', backref='product', lazy=True)
 
 
-class ImagePath(db.Model):
+class productImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.String(200), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'),
                            nullable=False)
+    photoId = db.Column(db.String(50), nullable=False)
+    path = db.Column(db.String(200), nullable=False)
 
 
 class UserProducts(db.Model):

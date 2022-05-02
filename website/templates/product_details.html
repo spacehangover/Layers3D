@@ -107,9 +107,9 @@
         
                 <ol>
                   <li><a href="index.html">Home</a></li>
-                  <li>Portfolio Details</li>
+                  <li>Detalles del producto</li>
                 </ol>
-                <h2>Portfolio Details</h2>
+                <h2>Detalles del producto</h2>
         
               </div>
             </section><!-- End Breadcrumbs -->
@@ -124,11 +124,9 @@
                     <div class="portfolio-details-slider swiper-container">
                       <div class="swiper-wrapper align-items-center">
 
-                        {% for photo in product.imagePath %}
+                        {% for image in product.product_image %}
                         <div class="swiper-slide">
-                          {{photo.path}}
-                          <!-- <img src="{{ url_for('static',filename='products/ {{photo.pathName}} }') }}" class="img-fluid animated" alt="" width="75%"> -->
-                          <img src="{{photo.path}}" alt="">
+                          <img src="{{ url_for('static',filename='products/' + image.path) }}" alt="">
                         </div>
                         {% endfor %}
                         
@@ -140,7 +138,7 @@
         
                   <div class="col-lg-4">
                     <div class="portfolio-info">
-                      <h3>Project information</h3>
+                      <h3>{{product.product_name}}</h3>
                       <ul>
                         <li><strong>Category</strong>: Web design</li>
                         <li><strong>Client</strong>: ASU Company</li>
