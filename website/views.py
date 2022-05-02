@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, Response
 from flask.helpers import url_for
 from flask_mail import Mail, Message
 from website.auth import login
-from .models import User, Product, Role
+from .models import User, Product, Role, ImagePath
 from website import create_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -32,12 +32,13 @@ def home():
     if request.method == "POST":
         client_name = request.form.get("name")
         client_email = request.form.get("email")
-        subject = request.form.get("subject")
+        msgsubject = request.form.get("subject")
         message = request.form.get("message")
 
-        msg = Message('Nueva consulta de' + client_email,
+        msg = Message('Nueva consulta de: ' + client_email,
                       sender='quantumprinting3d@gmail.com', recipients=["quantumprinting3d@gmail.com"])
         msg.body = message
+        # msg.subject = msgsubject
         mail.send(msg)
         flash('Mensaje enviado', category='success')
     return render_template("home.html", user=current_user)
@@ -50,7 +51,7 @@ def join():
 
 @views.route('/tienda')
 def tienda():
-    # products = Product.query.all()
+
     return render_template("shop.html", user=current_user, products=Product.query.all())
 
 
@@ -67,7 +68,7 @@ def add():
     if request.method == "POST":
         productName = request.form.get("productName")
         productPrice = request.form.get("productPrice")
-        pic = request.files['pic']
+        pictures = request.files.getlist('pictures')
 
         # if pic and allowed_file(pic.filename):
         #     filename = secure_filename(pic.filename)
@@ -79,29 +80,43 @@ def add():
         #     pic.save(os.path.join(
         #         "E:\Coding\QuantumWeb\QuantumFlask\website\static\products", newFilename))
 
-        if not pic:
-            flash('Agregar foto', category='error')
+        # for pic in pictures:
+        #     print(pic)
+
+        if not pictures:
+            flash('Agregar fotos', category='error')
         else:
             newProduct = Product(product_name=productName,
                                  product_price=productPrice)
             db.session.add(newProduct)
             db.session.commit()
 
-            if allowed_file(pic.filename):
-                filename = secure_filename(pic.filename)
-                splitFilename = os.path.splitext(filename)
-                newFilename = str(newProduct.id) + splitFilename[1]
-                print(newFilename)
-                image_path = url_for(
-                    'static', filename='products/' + newFilename)
-                pic.save(app.config['UPLOAD_FOLDER'] + newFilename)
-                newProduct.image_path = image_path
-                flash('product added', category='success')
-                print(newFilename)
-                print(image_path)
-                db.session.commit()
-                # userProducts = [newProduct, ]
-                # current_user.cart = userProducts
+            productDir = app.config['UPLOAD_FOLDER'] + newProduct.product_name
+            os.mkdir(productDir)
+
+            for pic in pictures:
+                if allowed_file(pic.filename):
+                    filename = secure_filename(pic.filename)
+                    splitFilename = os.path.splitext(filename)
+                    newFilename = str(newProduct.id) + splitFilename[1]
+
+                    photoNumber = pictures.index(pic)
+
+                    # print(newFilename)
+                    image_path = productDir + "/" + \
+                        str(newProduct.id) + "-" + \
+                        str(photoNumber) + splitFilename[1]
+                    pic.save(image_path)
+
+                    photoPath = ImagePath(
+                        path=image_path, product_id=newProduct.id)
+                    db.session.add(photoPath)
+                    db.session.commit()
+                    # print(photoPath.path)
+
+            # newProduct.image_path = image_path
+            db.session.commit()
+            flash('product added', category='success')
 
     return render_template('add.html', user=current_user)
 
@@ -138,20 +153,48 @@ def database():
     return render_template("database_table.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all())
 
 
-@views.route('/cart')
+@ views.route('/cart')
+@ login_required
 def cart():
+    total_items = 0
+    total_price = 0
     for p in current_user.cart:
-        total_items = 0
         total_items += 1
-        total_price = 0
         total_price += p.product_price
     return render_template("cart.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user, total_items=total_items, total_price=total_price)
 
 
-@views.route('/addcart/<int:id>')
+@ views.route('/addcart/<int:id>')
 def addcart(id):
     cart_product = Product.query.filter_by(id=id).first()
     current_user.cart.append(cart_product)
     db.session.commit()
     flash('Producto añadido', category='success')
     return render_template("shop.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user)
+
+
+@ views.route('/remove/<int:id>')
+def remove(id):
+    Product.query.filter_by(id=id).delete()
+    db.session.commit()
+    flash('Producto eliminado', category='success')
+    return render_template("database_table.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user)
+
+
+@ views.route('/confirmation')
+def confirmation():
+    # cart_product = Product.query.filter_by(id=id).first()
+    # current_user.cart.append(cart_product)
+    # db.session.commit()
+    # flash('Producto añadido', category='success')
+    return render_template("shop.html", roles=Role.query.all(), users=User.query.all(), user=current_user, products=Product.query.all(), current_user=current_user)
+
+
+@ views.route('/product')
+def product():
+    # Product.query.filter_by(id=id).delete()
+    # db.session.commit()
+    # flash('Producto eliminado', category='success')
+    product = Product.query.filter_by(id=1).first()
+    print(product.product_name)
+    return render_template("product_details.html", roles=Role.query.all(), users=User.query.all(), user=current_user, product=product, current_user=current_user)

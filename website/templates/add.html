@@ -5,11 +5,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Quantum Printing</title>
+  <title>Quantum</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='img/logos/quantum-logo-white.png') }}" />
   <!-- <link href="static/img/favicon.png" rel="icon">
   <link href="static/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
 
@@ -83,15 +84,23 @@
       
       <nav id="navbar" class="navbar">
         <ul>
-          {% if user.is_authenticated %}
+          {% if current_user.associate == "on"%}
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
+          <li><a class="nav-link scrollto" href="/pedidos">Pedidos</a></li>
+          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
+          <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
+          {% elif user.is_authenticated %}
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
           {% else %}
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/login">Login</a></li>
           {% endif %} 
         </ul>
@@ -118,7 +127,7 @@
           <form method="POST"  enctype="multipart/form-data">
             <input type="text" id="productName" class="fadeIn second" name="productName" placeholder="Product name">
             <input type="text" id="productPrice" class="fadeIn third" name="productPrice" placeholder="Product price">
-            <input type="file" class="form-control" name="pic">
+            <input type="file" class="form-control" name="pictures" multiple>
             <input type="submit" class="fadeIn fourth" value="add">
           </form>
           <!-- <a href="/sign-up" class="btn-learn-more" style="padding-bottom: 30px;">Crear cuenta</a> -->

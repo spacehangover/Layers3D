@@ -116,6 +116,7 @@ h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
+  background: rgba(40, 58, 90, 0.9);
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 0;
@@ -1866,7 +1867,7 @@ section {
 }
 .showcase button:hover:after {
   transform: translate(-10px, -10px);
-  width: calc(100% - 10px);
+  width: calc(100%);
 }
 .showcase button:active:after {
   width: 100%;

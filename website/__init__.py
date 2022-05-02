@@ -12,7 +12,8 @@ db = SQLAlchemy()
 DB_NAME = "database.db"
 
 
-UPLOAD_FOLDER = 'E:/Coding/Quantum Web 3.0/website/static/products/'
+UPLOAD_FOLDER = 'E:/Coding/QuantumWeb3.0/website/static/products/'
+PRODUCT_FOLDER = 'E:/Coding/QuantumWeb3.0/website/static/products/'
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -27,6 +28,7 @@ def create_app():
     app.config['SECRET_KEY'] = '21'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['PRODUCT_FOLDER'] = PRODUCT_FOLDER
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     mail_settings = {
         "MAIL_SERVER": 'smtp.gmail.com',

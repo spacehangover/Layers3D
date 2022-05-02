@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Quantum Printing</title>
+        <title>Quantum</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='img/logos/quantum-logo-white.png') }}" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
         <!-- Google fonts-->
@@ -75,15 +75,23 @@
           
           <nav id="navbar" class="navbar">
             <ul>
-              {% if user.is_authenticated %}
+              {% if current_user.associate == "on"%}
               <li><a class="nav-link scrollto active" href="/">Home</a></li>
               <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
-              <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+              <li><a class="nav-link scrollto" href="/pedidos">Pedidos</a></li>
+              <li><a class="nav-link scrollto active" href="/cart">Carrito</a></li>
+              <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
+              {% elif user.is_authenticated %}
+              <li><a class="nav-link scrollto" href="/">Home</a></li>
+              <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
+              <li><a class="nav-link scrollto active" href="/join">Unirse</a></li>
+              <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
               <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
               {% else %}
-              <li><a class="nav-link scrollto active" href="/">Home</a></li>
+              <li><a class="nav-link scrollto" href="/">Home</a></li>
               <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
-              <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+              <li><a class="nav-link scrollto active" href="/join">Unirse</a></li>
+              <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
               <li><a class="getstarted scrollto" href="/login">Login</a></li>
               {% endif %} 
             </ul>
@@ -150,7 +158,7 @@
             <div class="container-fluid p-0">
               <hr>
                 <div class="row g-0" >
-                    <div class="col-lg-6 order-lg-2 text-white showcase-img"> <button style="margin-left: 30%; margin-top: 20%;"> <span>Crear Cuenta</span> </button></div>
+                    <div class="col-lg-6 order-lg-2 text-white showcase-img"> <button style="margin-left: 30%; margin-top: 20%;"> <a style="color: white;" href="/sign-up"> <span>Crear Cuenta</span> </a> </button></div>
                     <div class="col-lg-6 order-lg-1 my-auto showcase-text">
                         <h2>Cuenta de socio</h2>
                         <p class="lead mb-0">Crea una cuenta con acceso a las herramientas de socio</p>

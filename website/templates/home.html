@@ -5,9 +5,10 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Quantum Printing</title>
+  <title>Quantum</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='img/logos/quantum-logo-white.png') }}" />
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -74,19 +75,19 @@
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/pedidos">Pedidos</a></li>
-          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
+          <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
           {% elif user.is_authenticated %}
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
-          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
+          <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
           {% else %}
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
           <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
           <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
-          <li><a class="nav-link scrollto" href="/join">Carrito</a></li>
+          <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
           <li><a class="getstarted scrollto" href="/login">Login</a></li>
           {% endif %} 
         </ul>
@@ -124,6 +125,7 @@
 
     <!-- ======= About Us Section ======= -->
     <section id="about" class="about">
+
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
@@ -285,7 +287,7 @@
             <div class="icon-box">
               <div class="icon"><i class="bx bx-tachometer"></i></div>
               <h4><a href="https://www.thingiverse.com/">Buscá modelos!</a></h4>
-              <p>Busca el modelo que quieras en Thingiverse</p>
+              <p>Encontra el modelo que necesitas en Thingiverse</p>
             </div>
           </div>
 
@@ -422,7 +424,7 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Nuestras redes sociales</h4>
             <div class="social-links mt-3">
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="https://www.instagram.com/quantumprinting3d/" class="instagram"><i class="bx bxl-instagram"></i></a>
             </div>
           </div>
 

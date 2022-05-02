@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tienda</title>
+        <title>Quantum</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='img/logos/quantum-logo-white.png') }}" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
@@ -73,17 +73,25 @@
               
               <nav id="navbar" class="navbar">
                 <ul>
-                    {% if user.is_authenticated %}
-                    <li><a class="nav-link scrollto active" href="/">Home</a></li>
-                    <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
-                    <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
-                    <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
-                    {% else %}
-                    <li><a class="nav-link scrollto active" href="/">Home</a></li>
-                    <li><a class="nav-link scrollto" href="/tienda">Tienda</a></li>
-                    <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
-                    <li><a class="getstarted scrollto" href="/login">Login</a></li>
-                    {% endif %} 
+                  {% if current_user.associate == "on"%}
+                  <li><a class="nav-link scrollto" href="/">Home</a></li>
+                  <li><a class="nav-link scrollto active" href="/tienda">Tienda</a></li>
+                  <li><a class="nav-link scrollto" href="/pedidos">Pedidos</a></li>
+                  <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
+                  <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
+                  {% elif user.is_authenticated %}
+                  <li><a class="nav-link scrollto" href="/">Home</a></li>
+                  <li><a class="nav-link scrollto active" href="/tienda">Tienda</a></li>
+                  <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+                  <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
+                  <li><a class="getstarted scrollto" href="/logout">Logout</a></li>
+                  {% else %}
+                  <li><a class="nav-link scrollto" href="/">Home</a></li>
+                  <li><a class="nav-link scrollto active" href="/tienda">Tienda</a></li>
+                  <li><a class="nav-link scrollto" href="/join">Unirse</a></li>
+                  <li><a class="nav-link scrollto" href="/cart">Carrito</a></li>
+                  <li><a class="getstarted scrollto" href="/login">Login</a></li>
+                  {% endif %} 
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
               </nav><!-- .navbar -->
@@ -111,14 +119,17 @@
                  <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
                   {% for product in products %}
+                  <a href="">
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                     <div class="portfolio-img"><img src={{product.image_path}} class="img-fluid" alt=""></div>
                     <div class="portfolio-info">
-                      <h4>{{product.product_name}}</h4>
+                      <h4>{{product.imagePath}}</h4>
+                      <!-- <h4>{{product.product_name}}</h4> -->
                       <p>$ {{product.product_price}}</p>
                       <a href=/addcart/{{product.id}} title={{product.product_name}}><span class="iconify-inline" data-icon="bx:bxs-cart-add"></span></i></a>
                     </div>
                   </div>
+                  </a>
                   {% endfor %}
 
         
